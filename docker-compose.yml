@@ -5,6 +5,7 @@ services:
     hostname: docker-local
     env_file:
       - env_files/local/service.env
+      - env_files/local/otel.env
     ports:
       - "10000:8080"
     networks:
