@@ -1,0 +1,17 @@
+services:
+  javalin-template:
+    image: local/javalin-template:latest
+    container_name: javalin-template
+    hostname: docker-local
+    env_file:
+      - env_files/local/service.env
+      - env_files/local/otel.env
+    ports:
+      - "10000:8080"
+    networks:
+      - develop-bridge-network
+
+networks:
+  develop-bridge-network:
+    name: develop-bridge
+    external: true
