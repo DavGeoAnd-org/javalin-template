@@ -33,7 +33,7 @@ jobs:
         with:
           filters: |
             test_env:
-              - 'env_files/test.env'
+              - 'env_files/test/**'
 
       - name: Get Service Version
         id: get-version
@@ -73,7 +73,7 @@ jobs:
 
       - name: Update .env in S3
         if: steps.changes.outputs.test_env == 'true'
-        run: aws s3 cp env_files/test.env s3://services-396607284401/javalin-template/
+        run: aws s3 cp env_files/test/ s3://services-396607284401/javalin-template/test/ --recursive
 
       - name: Download task definition
         run: |

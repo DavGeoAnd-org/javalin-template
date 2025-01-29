@@ -4,7 +4,7 @@ services:
     container_name: javalin-template
     hostname: docker-local
     env_file:
-      - env_files/local.env
+      - env_files/local/service.env
     ports:
       - "10000:8080"
     networks:
