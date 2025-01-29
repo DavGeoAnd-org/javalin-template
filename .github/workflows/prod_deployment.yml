@@ -58,7 +58,7 @@ jobs:
 
       - name: Build the Docker image
         id: build-image
-        run: docker build -t $REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }}-${GITHUB_SHA::7} .
+        run: docker build -t $REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }} .
 
       - name: Push the Docker image
         id: push-image
