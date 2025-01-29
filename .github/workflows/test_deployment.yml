@@ -33,7 +33,7 @@ jobs:
         with:
           filters: |
             test:
-              - 'env_files/test/**'
+              - 'env_files/test/*.env'
 
       - name: Get Service Version
         id: get-version
