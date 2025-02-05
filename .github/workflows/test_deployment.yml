@@ -25,7 +25,7 @@ jobs:
   deploy_to_test:
     name: Create and deploy test image
     runs-on: ubuntu-latest
-    environment: ${{ env.SERVICE_ENV }}
+    environment: test
 
     steps:
       - name: Checkout Repo
