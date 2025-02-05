@@ -11,14 +11,17 @@ on:
       - closed
 
 env:
+  SERVICE_ENV: prod
   REGISTRY: dgandalcio
   REPOSITORY: javalin-template
   AWS_REGION: us-east-1
-  ECS_TASK_DEFINITION: javalin-template
+  S3_BUCKET: homeproject-services-bucket-396607284401
+  S3_BUCKET_SERVICE: javalin-template
+  ECS_TASK_DEFINITION: javalin-template-prod
   ECS_TASK_DEFINITION_FILE: task-definition.json
   CONTAINER_NAME: javalin-template
   ECS_SERVICE: javalin-template
-  ECS_CLUSTER: services
+  ECS_CLUSTER: home_project-services-prod-cluster
 
 jobs:
   deploy_to_prod:
@@ -35,7 +38,7 @@ jobs:
         with:
           filters: |
             prod:
-              - 'env_files/prod/*.env'
+              - 'env_files/${{ env.SERVICE_ENV }}/*.env'
 
       - name: Get Service Version
         id: get-version
@@ -75,7 +78,7 @@ jobs:
 
       - name: Update .env in S3
         if: steps.changes.outputs.prod == 'true'
-        run: aws s3 cp env_files/prod/ s3://services-396607284401/javalin-template/prod/ --recursive
+        run: aws s3 cp env_files/${{ env.SERVICE_ENV }}/ s3://${{ env.S3_BUCKET }}/${{ env.S3_BUCKET_SERVICE }}/${{ env.SERVICE_ENV }}/ --recursive
 
       - name: Download task definition
         run: |
