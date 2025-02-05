@@ -80,7 +80,7 @@
 ## ECS Task Definition - javalin-template
 
 * Create
-    * Task definition family: javalin-service-[test|prod]
+    * Task definition family: javalin-template-[test|prod]
     * Launch type: AWS Fargate
     * Task size:
         * CPU: .25 -- Memory: .5
