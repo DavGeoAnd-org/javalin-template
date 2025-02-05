@@ -9,20 +9,23 @@ on:
       - synchronize
 
 env:
+  SERVICE_ENV: test
   REGISTRY: dgandalcio
   REPOSITORY: javalin-template
   AWS_REGION: us-east-1
+  S3_BUCKET: homeproject-services-bucket-396607284401
+  S3_BUCKET_SERVICE: javalin-template
   ECS_TASK_DEFINITION: javalin-template-test
   ECS_TASK_DEFINITION_FILE: task-definition.json
   CONTAINER_NAME: javalin-template
-  ECS_SERVICE: javalin-template-test
-  ECS_CLUSTER: services-test
+  ECS_SERVICE: javalin-template
+  ECS_CLUSTER: home_project-services-test-cluster
 
 jobs:
   deploy_to_test:
     name: Create and deploy test image
     runs-on: ubuntu-latest
-    environment: test
+    environment: ${{ env.SERVICE_ENV }}
 
     steps:
       - name: Checkout Repo
@@ -32,8 +35,8 @@ jobs:
         id: changes
         with:
           filters: |
-            test:
-              - 'env_files/test/*.env'
+            ${{ env.SERVICE_ENV }}:
+              - 'env_files/${{ env.SERVICE_ENV }}/*.env'
 
       - name: Get Service Version
         id: get-version
@@ -72,8 +75,8 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Update .env in S3
-        if: steps.changes.outputs.test == 'true'
-        run: aws s3 cp env_files/test/ s3://services-396607284401/javalin-template/test/ --recursive
+        if: steps.changes.outputs.${{ env.SERVICE_ENV }} == 'true'
+        run: aws s3 cp env_files/${{ env.SERVICE_ENV }}/ s3://${{ env.S3_BUCKET }}/${{ env.S3_BUCKET_SERVICE }}/${{ env.SERVICE_ENV }}/ --recursive
 
       - name: Download task definition
         run: |
