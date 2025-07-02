@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
 
 env:
   SERVICE_ENV: prod
@@ -21,7 +16,7 @@ env:
   ECS_TASK_DEFINITION_FILE: task-definition.json
   CONTAINER_NAME: javalin-template
   ECS_SERVICE: javalin-template
-  ECS_CLUSTER: home_project-services-prod-cluster
+  ECS_CLUSTER: homeproject-services-prod-cluster
 
 jobs:
   deploy_to_prod:
@@ -55,9 +50,9 @@ jobs:
 
       - name: docker login
         env:
-          DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_USER: $REGISTRY
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        run: docker login -u $REGISTRY -p $DOCKER_PASSWORD
 
       - name: Build the Docker image
         id: build-image

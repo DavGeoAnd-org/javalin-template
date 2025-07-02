@@ -1,53 +1,58 @@
 # javalin-template
 
-## Create any necessary steps
+## Create repo in Github
+
+* Create with name only
+* Add secrets for both Docker and AWS
+
+## Create project local
+
+* Use javalin template with same name as repo
+* Search for all instances of template name and replace with repo name
+* Create repo using project
+* Commit and push all changes
+    * Use the git link provided from Github repo when given where to push to
 
 ## VPC
 
-* home_project-vpc
+* Create
+    * Resources to create: VPC and more
+    * Enable Auto-generate
+    * name: homeproject
+    * Keep rest default
 
 ## Security Group - for services load balancer
 
 * Create
-    * Security group name: home_project-ecs-service-load_balancer-security_group
+    * Security group name: homeproject-ecs-service-load_balancer-security_group
     * Description: Security group for ecs services load balancer running in home project
-    * VPC: home_project-vpc
+    * VPC: Name of 'VPC'
     * Inbound rules:
         * Type: HTTP -- Source: Anywhere-IPv4
         * Type: HTTP -- Source: Anywhere-IPv6
 
-## Security Group - for services
+## Security Group - for ecs services
 
 * Create
-    * Security group name: home_project-ecs-service-security_group
+    * Security group name: homeproject-ecs-service-security_group
     * Description: Security group for ecs services running in home project
-    * VPC: home_project-vpc
+    * VPC: Name of 'VPC'
     * Inbound rules:
         * Type: Custom TCP -- Port range: 8080 -- Source: My IP
-        * Type: HTTP -- Source: Custom -> Security group ID of 'Security Group - for services load balancer'
+        * Type: Custom TCP -- Port range: 8080 -- Source: Custom -> Security group ID of 'Security Group - for services
+          load balancer'
 
 ## Security Group - for otel-collector
 
 * Create
-    * Security group name: home_project-ecs-otel_collector-security_group
+    * Security group name: homeproject-ecs-otel_collector-security_group
     * Description: Security group for ecs otel-collector running in home project
-    * VPC: home_project-vpc
+    * VPC: Name of 'VPC'
     * Inbound rules:
         * Type: Custom TCP -- Port range: 4318 -- Source: Anywhere-IPv4
         * Type: Custom TCP -- Port range: 4318 -- Source: Anywhere-IPv6
         * Type: Custom TCP -- Port range: 13133 -- Source: Anywhere-IPv4
         * Type: Custom TCP -- Port range: 13133 -- Source: Anywhere-IPv6
-
-## Target Group - default target group for home_project
-
-* Create
-    * Choose a target type: IP addresses
-    * Target group name: homeproject-default-tg
-    * Protocol : Port: HTTP: 80
-    * VPC: home_project-vpc
-    * Protocol version: HTTP1
-    * Network: home_project-vpc
-    * Enter an IPv4 address from a VPC subnet.: Remove
 
 ## Application Load Balancer
 
@@ -55,10 +60,17 @@
     * Load balancer name: homeproject-services
     * Scheme: Internet-facing
     * Load balancer IP address type: IPv4
-    * VPC: home_project-vpc
+    * VPC: Name of 'VPC'
     * Mappings: all availability zones (public)
-    * Security groups: home_project-ecs-service-load_balancer-security_group
-    * Default action: homeproject-default-tg
+    * Security groups: Security group ID of 'Security Group - for services load balancer'
+    * Default action: Create target group
+        * Choose a target type: IP addresses
+        * Target group name: homeproject-default
+        * Protocol : Port: HTTP: 80
+        * VPC: Name of 'VPC'
+        * Protocol version: HTTP1
+        * Network: Name of 'VPC'
+        * Enter an IPv4 address from a VPC subnet.: Remove
 
 ## S3
 
@@ -73,8 +85,8 @@
 ## ECS Cluster
 
 * Create
-    * Cluster name: home_project-services-[test|prod]-cluster
-    * Default namespace: home_project-[test|prod]-namespace
+    * Cluster name: homeproject-services-[test|prod]-cluster
+    * Default namespace: homeproject-[test|prod]-namespace
     * Infrastructure: AWS Fargate (serverless)
 
 ## ECS Task Definition - javalin-template
@@ -97,27 +109,27 @@
 
 * Create
     * Deploy from ecs task definition
-    * Existing cluster: home_project-services-[test|prod]-cluster
+    * Existing cluster: Name of 'ECS Cluster'
     * Compute options: Capacity provider strategy
     * Service name: javalin-template
     * Desired tasks: 0
     * Service Connect:
         * Enable Use Service Connect
         * Service Connect configuration: Client side only
-        * Namespace: home_project-[test|prod]-namespace
+        * Namespace: Namespace of 'ECS Cluster'
         * Disable Use log collection
     * Networking:
-        * VPC: home_project-vpc
+        * VPC: Name of 'VPC'
         * Subnets: enable only public
-        * Security group: home_project-ecs-service-security_group
+        * Security group: Security group ID of 'Security Group - for ecs services'
     * Load balancing (prod)
         * Enable Use load balancing
         * Load balancer type: Application Load Balancer
-        * Application Load Balancer: Use an existing load balancer -> homeproject-services
+        * Application Load Balancer: Use an existing load balancer -> Name of 'Application Load Balancer'
         * Listener: Use an existing listener -> 80:HTTP
         * Target group:
             * Create new target group
-            * Target group name: hp-javalin-template-http-tg
+            * Target group name: http-javalin-template-tg
             * Path pattern: /template/*
             * Evaluation order: 1 (or next available)
             * Health check path: /template/admin/health
@@ -144,19 +156,19 @@
 
 * Create
     * Deploy from ecs task definition
-    * Existing cluster: home_project-services[-test|-prod]-cluster
+    * Existing cluster: Name of 'ECS Cluster'
     * Compute options: Capacity provider strategy
     * Service name: otel-collector-service
     * Desired tasks: 0
     * Service Connect:
         * Enable Use Service Connect
         * Service Connect configuration: Client and server
-        * Namespace: home_project[-test|-prod]-namespace
+        * Namespace: Namespace of 'ECS Cluster'
         * Service Connect and discovery name configuration:
             * Port alias: otel-collector-service-4318-tcp -- Discovery: http_otel-collector-service_4318 -- DNS:
               otel-collector-service -- Port: 4318
         * Disable Use log collection
     * Networking:
-        * VPC: home_project-vpc
+        * VPC: Name of 'VPC'
         * Subnets: enable only public
-        * Security group: home_project-ecs-otel_collector-security_group
+        * Security group: Security group ID of 'Security Group - for otel-collector'
