@@ -2,16 +2,13 @@
 
 ## Create repo in Github
 
-* Create with name only
-* Add secrets for both Docker and AWS
+* Create service from this template
 
 ## Create project local
 
-* Use javalin template with same name as repo
-* Search for all instances of template name and replace with repo name
-* Create repo using project
-* Commit and push all changes
-    * Use the git link provided from Github repo when given where to push to
+* Clone repo locally
+* Find all instances of javalin-template and update it to the repo name
+* Change service.context_path in service.properties
 
 ## VPC
 
@@ -128,7 +125,7 @@
         * Subnets: enable only public
         * Security group: Security group ID of 'Security Group - for otel-collector'
 
-## ECS Task Definition - javalin-template
+## ECS Task Definition - javalin-template (create manually before first deployment)
 
 * Create
     * Task definition family: javalin-template-[test|prod]
@@ -137,14 +134,14 @@
         * CPU: .25 -- Memory: .5
     * Container - 1:
         * Name: javalin-template
-        * Image URI: latest version
+        * Image URI: use 'latest' for initial setup
         * Port mappings:
             * Container port: 8080 -- Protocol: TCP -- App protocol: HTTP
         * Environment variables:
             * Add from file: .env files from homeproject-services-s3-bucket-396607284401
         * Log collection: disable log collection
 
-## ECS Service - javalin-template
+## ECS Service - javalin-template (create manually before first deployment)
 
 * Create
     * Deploy from ecs task definition
