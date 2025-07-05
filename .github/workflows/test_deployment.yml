@@ -13,7 +13,7 @@ env:
   REGISTRY: dgandalcio
   REPOSITORY: javalin-template
   AWS_REGION: us-east-1
-  S3_BUCKET: homeproject-services-bucket-396607284401
+  S3_BUCKET: homeproject-services-s3-bucket-396607284401
   ECS_TASK_DEFINITION_FILE: task-definition.json
   ECS_CLUSTER: homeproject-services-test-ecs-cluster
 
