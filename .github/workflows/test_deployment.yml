@@ -71,7 +71,7 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition ${{ env.REGISTRY }}-${{ env.SERVICE_ENV }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION_FILE }}
+          aws ecs describe-task-definition --task-definition ${{ env.REPOSITORY }}-${{ env.SERVICE_ENV }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION_FILE }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
