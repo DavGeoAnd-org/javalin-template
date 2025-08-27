@@ -6,6 +6,8 @@
         </encoder>
     </appender>
 
+    <logger name="com.davgeoand.api" level="${JAVALIN_SERVICE_LOGGING:-INFO}"/>
+
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
