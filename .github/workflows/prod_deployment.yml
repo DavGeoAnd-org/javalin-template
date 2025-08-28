@@ -56,8 +56,8 @@ jobs:
       - name: Push the Docker image
         id: push-image
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }} .
-          docker push $REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }}
+          docker build -t $REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }} -t $REGISTRY/$REPOSITORY:latest .
+          docker image push -a $REGISTRY/$REPOSITORY
           echo "image=$REGISTRY/$REPOSITORY:${{ steps.get-version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Configure AWS Creds

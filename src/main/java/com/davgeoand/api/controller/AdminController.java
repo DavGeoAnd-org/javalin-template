@@ -15,13 +15,11 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 public class AdminController {
     public static @NotNull EndpointGroup getAdminEndpoints() {
         return () -> {
-            get("health", AdminController::health);
+            get("health", AdminController::getHealthRequest);
         };
     }
 
-    private static void health(@NotNull Context context) {
-        log.debug("Starting admin health request");
+    private static void getHealthRequest(@NotNull Context context) {
         context.status(HttpStatus.OK);
-        log.debug("Finished admin health request");
     }
 }
