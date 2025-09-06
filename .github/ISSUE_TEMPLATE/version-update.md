@@ -8,3 +8,4 @@ assignees: DavGeoAnd
 ---
 
 - update dependencies and plugins in pom.xml
+- update the image used in Dockerfile
