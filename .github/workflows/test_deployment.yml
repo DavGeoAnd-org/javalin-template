@@ -10,7 +10,7 @@ on:
 
 env:
   SERVICE_ENV: test
-  REGISTRY: dgandalcio
+  REGISTRY: davgeoand9
   REPOSITORY: javalin-template
   AWS_REGION: us-east-1
   S3_BUCKET: homeproject-services-s3-bucket-396607284401
