@@ -1,9 +1,6 @@
 name: Prod Deployment of javalin-template
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
