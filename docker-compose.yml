@@ -10,6 +10,9 @@ services:
       - "8080:8080"
     networks:
       - javalin-template-bridge-network
+    depends_on:
+      otel-collector-service:
+        condition: service_started
   otel-collector-service:
     image: davgeoand9/otel-collector-service:latest
     container_name: javalin-template-otel-collector-service
