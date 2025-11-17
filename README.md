@@ -10,7 +10,6 @@
 * Find all instances of javalin-template and update it to the repo name
 * Change service.context_path in service.properties
 * Add the following env variables to the run configuration
-    * (Required) OTEL_SERVICE_NAME - javalin-template
     * JAVALIN_SERVICE_LOGGING - DEBUG
 
 ## VPC
