@@ -3,12 +3,12 @@
 ## Create repo in Github
 
 * Create service from this template
+* Find all instances of javalin-template and update it to the repo name
 
 ## Create project local
 
 * Clone repo locally
-* Find all instances of javalin-template and update it to the repo name
-* Change service.context_path in service.properties
+* Change service.context.path property in ServiceProperties.java
 * Add the following env variables to the run configuration
     * JAVALIN_SERVICE_LOGGING - DEBUG
 
