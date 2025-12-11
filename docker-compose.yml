@@ -9,23 +9,9 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - javalin-template-bridge-network
-    depends_on:
-      otel-collector-service:
-        condition: service_started
-  otel-collector-service:
-    image: davgeoand9/otel-collector-service:latest
-    container_name: javalin-template-otel-collector-service
-    hostname: javalin-template-local
-    ports:
-      - "4317:4317"
-      - "4318:4318"
-      - "13133:13133"
-      - "55678:55678"
-      - "55679:55679"
-    networks:
-      - javalin-template-bridge-network
+      - develop-network
 
 networks:
-  javalin-template-bridge-network:
-    name: javalin-template-bridge
+  develop-network:
+    external: true
+    name: develop
