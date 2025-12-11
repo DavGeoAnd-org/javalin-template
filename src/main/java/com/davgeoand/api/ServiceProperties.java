@@ -47,6 +47,7 @@ public class ServiceProperties {
         log.info("Initialized service properties");
     }
 
+    @WithSpan
     private static void setOtlpProperties() {
         log.info("Setting opentelemetry properties");
 
