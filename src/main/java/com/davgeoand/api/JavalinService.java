@@ -4,6 +4,7 @@ import com.davgeoand.api.controller.AdminController;
 import com.davgeoand.api.exception.JavalinServiceException.MissingPropertyException;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
+import io.javalin.micrometer.MicrometerPlugin;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,19 +22,27 @@ public class JavalinService {
         javalin = Javalin.create(javalinConfig -> {
             javalinConfig.router.apiBuilder(routes());
             javalinConfig.router.contextPath = SERVICE_CONTEXT_PATH;
+            javalinConfig.registerPlugin(micrometerRegistry());
         });
-        addExceptionHandlers();
+        exceptionHandlers();
         log.info("Initialized {}", SERVICE_NAME);
     }
 
     @WithSpan
-    private void addExceptionHandlers() {
+    private MicrometerPlugin micrometerRegistry() {
+        log.info("Adding micrometer registry");
+        return new MicrometerPlugin(micrometerPluginConfig -> micrometerPluginConfig.registry = ServiceMeterRegistry.meterRegistry);
+    }
+
+    @WithSpan
+    private void exceptionHandlers() {
         log.info("Adding exception handlers");
         log.info("Added exception handlers");
     }
 
     @WithSpan
     private EndpointGroup routes() {
+        log.info("Adding routes");
         return () -> path("admin", AdminController.getAdminEndpoints());
     }
 
