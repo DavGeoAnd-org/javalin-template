@@ -37,7 +37,6 @@ public class JavalinService {
     @WithSpan
     private void exceptionHandlers() {
         log.info("Adding exception handlers");
-        log.info("Added exception handlers");
     }
 
     @WithSpan
