@@ -19,7 +19,7 @@ public class ServiceInfo {
     @JsonSerialize(using = RecordIdSerializer.class)
     @JsonDeserialize(using = RecordIdDeserializer.class)
     RecordId id = new RecordId("serviceInfos", Instant.now().toEpochMilli());
-    String cloudAvailabilityZone = ServiceProperties.getProperty("cloud.availability.zone").orElse(null);
+    String cloudAvailabilityZone = ServiceProperties.getProperty("cloud.availability_zone").orElse(null);
     String cloudRegion = ServiceProperties.getProperty("cloud.region").orElse(null);
     String containerId = ServiceProperties.getProperty("container.id").orElse(null);
     String deploymentEnvironment = ServiceProperties.getProperty("deployment.environment").orElse(null);
