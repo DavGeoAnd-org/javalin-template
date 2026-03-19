@@ -21,9 +21,17 @@ public class ServiceProperties {
     private static final Properties properties = new Properties();
 
     static {
+        //Service
         properties.put("service.name", "javalin-template");
-        properties.put("service.port", StringUtils.defaultIfBlank(System.getenv("SERVICE_PORT"), "8080"));
+        properties.put("deployment.environment", "local");
+        properties.put("service.port", StringUtils.defaultIfBlank(System.getenv("SERVICE_PORT"), "10000"));
         properties.put("service.context.path", StringUtils.defaultIfBlank(System.getenv("SERVICE_CONTEXT_PATH"), "/template"));
+
+        // SurrealDB
+        properties.put("surrealdb.connect", StringUtils.defaultIfBlank(System.getenv("SURREALDB_CONNECT"), "http://localhost:8000"));
+        properties.put("surrealdb.namespace", StringUtils.defaultIfBlank(System.getenv("SURREALDB_NAMESPACE"), "template"));
+        properties.put("surrealdb.username", StringUtils.defaultIfBlank(System.getenv("SURREALDB_USERNAME"), "root"));
+        properties.put("surrealdb.password", StringUtils.defaultIfBlank(System.getenv("SURREALDB_PASSWORD"), "root"));
     }
 
     @WithSpan

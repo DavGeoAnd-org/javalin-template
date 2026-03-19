@@ -20,7 +20,7 @@ public class AdminController {
     public static @NotNull EndpointGroup getAdminEndpoints() {
         return () -> {
             get("health", AdminController::health);
-            get("metrics",AdminController::metrics);
+            get("metrics", AdminController::metrics);
         };
     }
 
@@ -34,5 +34,10 @@ public class AdminController {
         log.debug("request - health");
         context.json(new MessageResponse(adminService.health()))
                 .status(HttpStatus.OK);
+    }
+
+    public static void addServiceInfo() {
+        log.debug("function - addServiceInfo");
+        adminService.addServiceInfo();
     }
 }

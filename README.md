@@ -1,6 +1,6 @@
 # javalin-template
 
-## Create repo in Github
+## Create repo in GitHub
 
 * Create service from this template
 * Find all instances of javalin-template and update it to the repo name
@@ -49,8 +49,8 @@
     * Description: Security group for ecs services running in home project
     * VPC: Name of 'VPC'
     * Inbound rules:
-        * Type: Custom TCP -- Port range: 8080 -- Source: My IP
-        * Type: Custom TCP -- Port range: 8080 -- Source: Custom -> Security group ID of 'Security Group - for services
+        * Type: Custom TCP -- Port range: 10000 -- Source: My IP
+        * Type: Custom TCP -- Port range: 10000 -- Source: Custom → Security group ID of 'Security Group - for services
           load balancer'
 
 ## Application Load Balancer
@@ -78,7 +78,7 @@
     * Bucket name: homeproject-services-s3-bucket-396607284401
     * Create folder -> Folder name: javalin-template
     * In javalin-template folder
-        * Create folder -> Folder name: [test|prod]
+        * Create folder → Folder name: [test|prod]
         * add .env files
 
 ## ECS Cluster
@@ -138,7 +138,7 @@
         * Name: javalin-template
         * Image URI: use 'latest' for initial setup
         * Port mappings:
-            * Container port: 8080 -- Protocol: TCP -- App protocol: HTTP
+            * Container port: 10000 -- Protocol: TCP -- App protocol: HTTP
         * Environment variables:
             * Add from file: .env files from homeproject-services-s3-bucket-396607284401
         * Log collection: disable log collection
@@ -163,7 +163,7 @@
     * Load balancing (prod)
         * Enable Use load balancing
         * Load balancer type: Application Load Balancer
-        * Application Load Balancer: Use an existing load balancer -> Name of 'Application Load Balancer'
+        * Application Load Balancer: Use an existing load balancer → Name of 'Application Load Balancer'
         * Listener: Use an existing listener -> 80:HTTP
         * Target group:
             * Create new target group
