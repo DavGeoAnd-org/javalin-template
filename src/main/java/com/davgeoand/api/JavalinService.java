@@ -5,6 +5,7 @@ import com.davgeoand.api.monitor.event.ServiceEventHandler;
 import com.davgeoand.api.monitor.metric.ServiceMeterRegistry;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
+import io.javalin.config.JavalinConfig;
 import io.javalin.event.LifecycleEventListener;
 import io.javalin.micrometer.MicrometerPlugin;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
@@ -26,14 +27,14 @@ public class JavalinService {
             javalinConfig.events.serverStarted(serverStartedEvents());
             javalinConfig.startup.showJavalinBanner = false;
             javalinConfig.startup.showOldJavalinVersionWarning = false;
+            exceptionHandlers(javalinConfig);
         });
-        exceptionHandlers();
         ServiceEventHandler.init();
         log.info("Finished initializing {}", SERVICE_NAME);
     }
 
     @WithSpan
-    private void exceptionHandlers() {
+    private void exceptionHandlers(JavalinConfig javalinConfig) {
         log.info("Adding exception handlers");
     }
 

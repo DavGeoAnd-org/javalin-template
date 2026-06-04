@@ -8,9 +8,12 @@
 ## Create project local
 
 * Clone repo locally
-* Change service.context.path property in ServiceProperties.java
-* Add the following env variables to the run configuration
-    * JAVALIN_SERVICE_LOGGING - DEBUG
+* Change "context.path" default value in ServiceProperties.defaultProperties()
+* Change "service.namespace" value in env_file → env → otel.env
+* Change "service.namespace" value in .run → ServiceRunner.run.xml
+* Change "Path pattern" value in README.md
+* Change "Health check path" value in README.md
+* Run maven compile
 
 ## VPC
 
@@ -76,7 +79,7 @@
 * Create
     * Bucket type: General purpose
     * Bucket name: homeproject-services-s3-bucket-396607284401
-    * Create folder -> Folder name: javalin-template
+    * Create folder → Folder name: javalin-template
     * In javalin-template folder
         * Create folder → Folder name: [test|prod]
         * add .env files
@@ -141,7 +144,6 @@
             * Container port: 10000 -- Protocol: TCP -- App protocol: HTTP
         * Environment variables:
             * Add from file: .env files from homeproject-services-s3-bucket-396607284401
-        * Log collection: disable log collection
 
 ## ECS Service - javalin-template (create manually before first deployment)
 
@@ -155,7 +157,6 @@
         * Enable Use Service Connect
         * Service Connect configuration: Client side only
         * Namespace: Namespace of 'ECS Cluster'
-        * Disable Use log collection
     * Networking:
         * VPC: Name of 'VPC'
         * Subnets: enable only public
@@ -164,7 +165,7 @@
         * Enable Use load balancing
         * Load balancer type: Application Load Balancer
         * Application Load Balancer: Use an existing load balancer → Name of 'Application Load Balancer'
-        * Listener: Use an existing listener -> 80:HTTP
+        * Listener: Use an existing listener → 80:HTTP
         * Target group:
             * Create new target group
             * Target group name: http-javalin-template-tg
