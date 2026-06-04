@@ -17,17 +17,23 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServiceEventHandler {
     static EventHandler eventHandler;
-    static final Gauge queueSizeGauge = ServiceMeterRegistry.registerGaugeMeter("event.queue.size", () -> eventHandler.queueSize(), "Size of the queue for ApiEventHandler", BaseUnits.EVENTS);
-    static final Counter eventAddedCounter = ServiceMeterRegistry.registerCounterMeter("event.added", "Amount of events added to ApiEventHandler", BaseUnits.EVENTS);
+    static Gauge queueSizeGauge;
+    static Counter eventAddedCounter;
 
     public static void init() {
         log.info("Initializing service event handler");
         String eventHandlerType = ServiceProperties.getProperty("event.handler.type");
         eventHandler = (eventHandlerType.equals("influxdb") ? new InfluxEventHandler() : new LogEventHandler());
+        addMetersToMeterRegistry();
         Thread eventHandlerThread = new Thread(eventHandler);
         eventHandlerThread.setName("ServiceEventHandler");
         eventHandlerThread.start();
         log.info("Finished initializing service event handler");
+    }
+
+    private static void addMetersToMeterRegistry() {
+        queueSizeGauge = ServiceMeterRegistry.registerGaugeMeter("event.queue.size", () -> eventHandler.queueSize(), "Size of the queue for ApiEventHandler", BaseUnits.EVENTS);
+        eventAddedCounter = ServiceMeterRegistry.registerCounterMeter("event.added", "Amount of events added to ApiEventHandler", BaseUnits.EVENTS);
     }
 
     public static void addEvent(Event event) {

@@ -15,7 +15,7 @@ public class ServiceInfo extends Event {
 
     @Override
     public Point toPoint() {
-        return Point.measurement("info")
+        return Point.measurement("service_info")
                 .setField("git.branch", gitBranch)
                 .setField("git.commit.id.abbrev", gitCommitIdAbbrev)
                 .setTimestamp(time);
