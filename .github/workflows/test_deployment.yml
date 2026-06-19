@@ -36,7 +36,7 @@ jobs:
 
       - name: Get Service Version
         id: get-version
-        uses: jactions/maven-version@v1
+        uses: jactions/maven-version@v1.2.0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v5
