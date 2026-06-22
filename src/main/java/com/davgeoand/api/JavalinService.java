@@ -8,6 +8,7 @@ import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.config.JavalinConfig;
 import io.javalin.event.LifecycleEventListener;
 import io.javalin.micrometer.MicrometerPlugin;
+import io.javalin.plugin.bundled.CorsPluginConfig;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,7 @@ public class JavalinService {
             javalinConfig.startup.showJavalinBanner = false;
             javalinConfig.startup.showOldJavalinVersionWarning = false;
             exceptionHandlers(javalinConfig);
+            javalinConfig.bundledPlugins.enableCors(corsPluginConfig -> corsPluginConfig.addRule(CorsPluginConfig.CorsRule::anyHost));
         });
         ServiceEventHandler.init();
         log.info("Finished initializing {}", SERVICE_NAME);
