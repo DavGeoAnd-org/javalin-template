@@ -24,7 +24,7 @@ public class AdminService {
 
     public Properties properties() {
         Properties properties = ServiceProperties.getProperties();
-        properties.forEach((key, value) -> {
+        properties.forEach((key, _) -> {
             if (key.toString().contains("password") || key.toString().contains("token")) {
                 properties.remove(key);
             }
