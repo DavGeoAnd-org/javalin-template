@@ -112,6 +112,21 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- Source: https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
             <!-- Source: https://mvnrepository.com/artifact/org.codehaus.mojo/properties-maven-plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
